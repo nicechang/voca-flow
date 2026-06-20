@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <!-- Mobile optimization meta tags -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EngVoca">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <title>VocaFlow - 개인 영어 암기 앱</title>
+  
+  <!-- Premium Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="logo-area">
+        <span class="material-symbols-outlined logo-icon">menu_book</span>
+        <h1 class="logo-text">VocaFlow</h1>
+      </div>
+      <div class="sync-status-badge" id="sync-status">
+        <span class="material-symbols-outlined status-icon">wifi_off</span>
+        <span class="status-text">로컬 모드</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-main">
+
+    <!-- TAB 1: 단어 추가 (Add Word) -->
+    <section id="tab-add" class="tab-content active">
+      <div class="card glass-card">
+        <h2 class="section-title">암기할 단어 추가</h2>
+        
+        <form id="add-word-form" onsubmit="event.preventDefault();">
+          <div class="input-group">
+            <label for="input-word">영어 단어, 숙어 또는 표현</label>
+            <div class="search-input-wrapper">
+              <input type="text" id="input-word" placeholder="예: masterpiece, take advantage of" autocomplete="off" required>
+              <button type="button" id="btn-search-dict" class="btn btn-search">
+                <span class="material-symbols-outlined">search</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Dictionary Search Result (Hidden by default) -->
+          <div id="dict-results-container" class="dict-results hidden">
+            <div class="dict-header">
+              <div class="dict-word-info">
+                <span id="dict-word-title" class="dict-word"></span>
+                <span id="dict-phonetic" class="dict-phonetic"></span>
+                <button type="button" id="btn-speak-search" class="btn-icon-only">
+                  <span class="material-symbols-outlined">volume_up</span>
+                </button>
+              </div>
+              <span class="dict-badge">네이버 사전</span>
+            </div>
+            
+            <!-- Meanings Checklist -->
+            <div class="dict-section">
+              <span class="dict-section-title">추천 뜻 선택 (클릭 시 자동 기입)</span>
+              <div id="dict-meanings-list" class="badge-list">
+                <!-- Meaning badges go here -->
+              </div>
+            </div>
+            
+            <!-- Synonyms -->
+            <div class="dict-section" id="dict-synonyms-section">
+              <span class="dict-section-title">유사어 (Synonyms)</span>
+              <div id="dict-synonyms-list" class="badge-list synonyms">
+                <!-- Synonym badges go here -->
+              </div>
+            </div>
+
+            <!-- Expressions -->
+            <div class="dict-section" id="dict-expressions-section">
+              <span class="dict-section-title">많이 활용되는 표현 & 예문</span>
+              <div id="dict-expressions-list" class="expression-list">
+                <!-- Example expressions go here -->
+              </div>
+            </div>
+          </div>
+          
+          <div class="input-group">
+            <label for="input-meaning">한글 의미</label>
+            <input type="text" id="input-meaning" placeholder="뜻을 직접 적거나 위의 추천 뜻을 선택해 주세요 (세미콜론 ';' 구분 가능)" required>
+          </div>
+          
+          <div class="input-group">
+            <label for="input-nuance">나만의 뉘앙스 / 메모 (선택)</label>
+            <textarea id="input-nuance" placeholder="암기에 도움이 되는 뉘앙스나 나만의 설명을 적어주세요." rows="2"></textarea>
+          </div>
+          
+          <button type="submit" id="btn-save-word" class="btn btn-primary btn-block">
+            <span class="material-symbols-outlined">save</span>
+            <span>단어장에 추가</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- TAB 2: 학습하기 (Study) -->
+    <section id="tab-study" class="tab-content">
+      <div class="study-controls">
+        <!-- Study Settings Panel -->
+        <div class="glass-card controls-card">
+          <div class="control-row">
+            <div class="control-group">
+              <label for="select-study-mode">학습 방식</label>
+              <select id="select-study-mode">
+                <option value="flashcard">📇 플래시 카드</option>
+                <option value="choice">🎯 객관식 퀴즈</option>
+                <option value="gapfill">📝 예문 빈칸 채우기</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label for="select-study-filter">학습 대상</label>
+              <select id="select-study-filter">
+                <option value="all">전체 단어</option>
+                <option value="weak">미암기 & 취약 단어</option>
+                <option value="recent-wrong">최근 오답 단어</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="session-progress-bar-wrapper">
+            <div class="progress-info">
+              <span id="session-progress-text">남은 단어: 0개</span>
+              <span id="session-score-text">정답: 0 / 0</span>
+            </div>
+            <div class="session-progress-track">
+              <div id="session-progress-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Words Warning View -->
+      <div id="study-warning-view" class="glass-card empty-state-card hidden">
+        <span class="material-symbols-outlined empty-icon">warning</span>
+        <h3>학습 가능한 단어가 없습니다.</h3>
+        <p id="study-warning-message">단어를 먼저 추가해 주시거나 학습 필터를 변경해 주세요.</p>
+        <button id="btn-go-add" class="btn btn-secondary">단어 추가하러 가기</button>
+      </div>
+
+      <!-- 2-A. FLASHCARD VIEW -->
+      <div id="study-flashcard-view" class="study-view">
+        <div class="flashcard-container">
+          <div class="flashcard" id="flashcard">
+            <!-- Front of Card -->
+            <div class="card-face card-front">
+              <div class="card-actions">
+                <button type="button" id="btn-speak-front" class="btn-icon-large">
+                  <span class="material-symbols-outlined">volume_up</span>
+                </button>
+              </div>
+              <div class="card-body">
+                <h3 id="card-word-front" class="word-display"></h3>
+                <span id="card-phonetic-front" class="phonetic-display"></span>
+              </div>
+              <div class="card-footer">
+                <span class="hint-text">카드를 터치하면 뒤집힙니다</span>
+              </div>
+            </div>
+            <!-- Back of Card -->
+            <div class="card-face card-back">
+              <div class="card-body scrollable">
+                <h3 id="card-word-back" class="word-display"></h3>
+                
+                <div class="card-section">
+                  <span class="card-section-title">의미</span>
+                  <p id="card-meaning" class="meaning-display"></p>
+                </div>
+                
+                <div class="card-section" id="card-nuance-section">
+                  <span class="card-section-title">나만의 뉘앙스 / 메모</span>
+                  <p id="card-nuance" class="nuance-display"></p>
+                </div>
+                
+                <div class="card-section" id="card-synonyms-section">
+                  <span class="card-section-title">유사어 (Synonyms)</span>
+                  <div id="card-synonyms" class="badge-list small"></div>
+                </div>
+
+                <div class="card-section" id="card-expressions-section">
+                  <span class="card-section-title">많이 활용되는 표현</span>
+                  <div id="card-expressions" class="card-expression-list"></div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <span class="hint-text">카드를 다시 터치하면 영단어가 보입니다</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Flashcard Buttons -->
+        <div class="flashcard-btn-area">
+          <button id="btn-know-no" class="btn btn-danger flex-1">
+            <span class="material-symbols-outlined">close</span>
+            <span>모르겠음 (재학습)</span>
+          </button>
+          <button id="btn-know-yes" class="btn btn-success flex-1">
+            <span class="material-symbols-outlined">done</span>
+            <span>알겠음 (암기완료)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2-B. CHOICE QUIZ VIEW -->
+      <div id="study-choice-view" class="study-view hidden">
+        <div class="glass-card quiz-card">
+          <div class="quiz-header">
+            <button type="button" id="btn-speak-choice" class="btn-icon-only">
+              <span class="material-symbols-outlined">volume_up</span>
+            </button>
+            <span class="quiz-badge">뜻 고르기</span>
+          </div>
+          <div class="quiz-question">
+            <h3 id="choice-question-word" class="word-display"></h3>
+          </div>
+          <div class="choice-options-grid" id="choice-options-container">
+            <!-- 4 Multiple Choice Buttons generated here -->
+          </div>
+          <div id="choice-feedback" class="quiz-feedback hidden">
+            <!-- Correct/Incorrect message -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-C. GAP-FILL QUIZ VIEW -->
+      <div id="study-gapfill-view" class="study-view hidden">
+        <div class="glass-card quiz-card">
+          <div class="quiz-header">
+            <span class="quiz-badge">예문 빈칸 채우기</span>
+          </div>
+          <div class="quiz-question text-center">
+            <p id="gapfill-question-sentence" class="sentence-display"></p>
+            <p id="gapfill-question-translation" class="sentence-translation"></p>
+          </div>
+          <div class="choice-options-grid" id="gapfill-options-container">
+            <!-- Options generated here -->
+          </div>
+          <div id="gapfill-feedback" class="quiz-feedback hidden">
+            <!-- Correct/Incorrect message -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: 단어장 & 통계 (Wordlist & Stats) -->
+    <section id="tab-list" class="tab-content">
+      
+      <!-- Stats Dashboard -->
+      <div class="stats-dashboard glass-card">
+        <div class="progress-ring-area">
+          <div class="progress-ring-container">
+            <!-- SVG Progress Circle -->
+            <svg class="progress-ring" width="120" height="120">
+              <circle class="progress-ring-circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="50" cx="60" cy="60"/>
+              <circle id="stats-progress-bar" class="progress-ring-circle" stroke="var(--primary-color)" stroke-width="8" stroke-dasharray="314.16" stroke-dashoffset="314.16" fill="transparent" r="50" cx="60" cy="60"/>
+            </svg>
+            <div class="progress-ring-text">
+              <span id="stats-percent-text" class="percent">0%</span>
+              <span class="label">암기 완료</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-count" id="stats-count-total">0</span>
+            <span class="stat-label">전체 단어</span>
+          </div>
+          <div class="stat-box memorized">
+            <span class="stat-count" id="stats-count-memorized">0</span>
+            <span class="stat-label">암기 완료</span>
+          </div>
+          <div class="stat-box learning">
+            <span class="stat-count" id="stats-count-learning">0</span>
+            <span class="stat-label">학습 중</span>
+          </div>
+          <div class="stat-box weak">
+            <span class="stat-count" id="stats-count-weak">0</span>
+            <span class="stat-label">미흡/취약</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filter Controls -->
+      <div class="list-controls-row">
+        <div class="search-box glass-input-wrapper">
+          <span class="material-symbols-outlined search-icon">search</span>
+          <input type="text" id="search-word-input" placeholder="단어 또는 뜻으로 검색..." autocomplete="off">
+        </div>
+        
+        <div class="filter-box">
+          <select id="filter-status-select">
+            <option value="all">모든 단어</option>
+            <option value="Memorized">암기 완료</option>
+            <option value="Learning">학습 중</option>
+            <option value="Weak">미흡/취약</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Word List Area -->
+      <div id="word-list-container" class="word-list-grid">
+        <!-- Word cards will be rendered dynamically here -->
+      </div>
+      
+      <!-- Empty State for List -->
+      <div id="list-empty-state" class="glass-card empty-state-card hidden">
+        <span class="material-symbols-outlined empty-icon">folder_open</span>
+        <h3>단어가 존재하지 않습니다.</h3>
+        <p>새 단어를 입력하거나 검색 필터를 조정해 보세요.</p>
+      </div>
+    </section>
+
+    <!-- TAB 4: 설정 (Settings) -->
+    <section id="tab-settings" class="tab-content">
+      <div class="glass-card settings-card">
+        <h2 class="section-title">연동 및 환경 설정</h2>
+        
+        <!-- App Mode Selector -->
+        <div class="setting-group">
+          <label class="setting-label">데이터 관리 방식</label>
+          <div class="radio-toggle-group">
+            <input type="radio" id="mode-local" name="app-mode" value="local" checked>
+            <label for="mode-local" class="radio-label">
+              <span class="material-symbols-outlined">database</span>
+              <span>로컬 저장소</span>
+            </label>
+            
+            <input type="radio" id="mode-cloud" name="app-mode" value="cloud">
+            <label for="mode-cloud" class="radio-label">
+              <span class="material-symbols-outlined">cloud_sync</span>
+              <span>구글 시트 연동</span>
+            </label>
+          </div>
+          <p class="setting-help-text">
+            * 로컬 저장소: 브라우저 내부 스토리지 및 로컬 server.py 파일(database.json)에 데이터를 보관합니다.<br>
+            * 구글 시트 연동: 구글 스프레드시트에 연동하여 어디서나 실시간으로 데이터를 동기화합니다.
+          </p>
+        </div>
+        
+        <!-- Cloud Sync Config Panel -->
+        <div id="cloud-config-panel" class="setting-sub-panel hidden">
+          <div class="input-group">
+            <label for="input-gas-url">Google Apps Script 웹 앱 URL</label>
+            <input type="url" id="input-gas-url" placeholder="https://script.google.com/macros/s/.../exec">
+            <p class="input-help-text">배포한 Google Apps Script Web App 주소를 기입해 주세요.</p>
+          </div>
+          
+          <div class="sync-actions-row">
+            <button id="btn-cloud-sync" class="btn btn-secondary flex-1">
+              <span class="material-symbols-outlined">sync</span>
+              <span>양방향 동기화 실행</span>
+            </button>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Danger Zone / Data Management -->
+        <h3 class="subsection-title">데이터 관리</h3>
+        <div class="danger-zone">
+          <button id="btn-export-backup" class="btn btn-info btn-block mb-3">
+            <span class="material-symbols-outlined">download</span>
+            <span>데이터 백업 파일(JSON) 다운로드</span>
+          </button>
+          
+          <button id="btn-reset-data" class="btn btn-danger btn-block">
+            <span class="material-symbols-outlined">delete_forever</span>
+            <span>모든 학습 데이터 초기화</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Usage Guide Card -->
+      <div class="glass-card settings-card mt-4">
+        <h3 class="subsection-title">💡 구글 시트 연동 설치 가이드</h3>
+        <ol class="guide-list">
+          <li>새 <strong>구글 스프레드시트</strong>를 생성합니다.</li>
+          <li>상단 메뉴에서 <strong>확장 프로그램 (Extensions)</strong> &gt; <strong>Apps Script</strong>를 클릭합니다.</li>
+          <li>프로젝트에 생성된 코드 에디터의 기존 코드를 지우고, 이 웹앱 작업 디렉토리의 <code>google_script.js</code> 소스 코드를 복사해서 붙여넣습니다.</li>
+          <li>상단 <strong>저장 (Save)</strong> 버튼을 클릭합니다.</li>
+          <li>우측 상단 <strong>배포 (Deploy)</strong> &gt; <strong>새 배포 (New deployment)</strong>를 선택합니다.</li>
+          <li>유형 유형에서 <strong>웹 앱 (Web app)</strong>을 선택합니다.</li>
+          <li>설정값:
+            <ul>
+              <li>다음 사용자 권한으로 실행: <strong>나 (Me)</strong></li>
+              <li>액세스할 수 있는 사용자: <strong>모든 사용자 (Anyone)</strong> (로그인 없이 스마트폰에서 연동하기 위해 필수)</li>
+            </ul>
+          </li>
+          <li><strong>배포 (Deploy)</strong> 버튼을 누르고 권한 검토를 진행하여 허용해 줍니다.</li>
+          <li>화면에 출력되는 <strong>웹 앱 URL</strong> 주소를 복사해 위의 입력란에 붙여넣습니다.</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="app-navbar">
+    <button class="nav-item active" data-tab="tab-add">
+      <span class="material-symbols-outlined nav-icon">add_circle</span>
+      <span class="nav-label">단어 추가</span>
+    </button>
+    <button class="nav-item" data-tab="tab-study">
+      <span class="material-symbols-outlined nav-icon">school</span>
+      <span class="nav-label">카드 학습</span>
+    </button>
+    <button class="nav-item" data-tab="tab-list">
+      <span class="material-symbols-outlined nav-icon">list_alt</span>
+      <span class="nav-label">단어장/통계</span>
+    </button>
+    <button class="nav-item" data-tab="tab-settings">
+      <span class="material-symbols-outlined nav-icon">settings</span>
+      <span class="nav-label">설정</span>
+    </button>
+  </nav>
+
+  <!-- Notification Toast -->
+  <div id="toast-notification" class="toast hidden">
+    <span id="toast-message">메시지</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

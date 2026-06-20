@@ -1,0 +1,44 @@
+{
+  "words": [
+    {
+      "id": "w_1781948439572_iy8g8",
+      "word": "scold",
+      "meaning": "(특히 아이를) 야단치다[꾸짖다] (=rebuke)",
+      "nuance": "",
+      "synonyms": "[\"lecture\",\"ˌtell sb ˈoff\",\"rebuke\",\"reprimand\",\"chide\",\"castigate\",\"reproach\",\"reprove\"]",
+      "expressions": "[{\"ori\":\"a common scold\",\"trans\":\"이웃 사람들에게 쨍쨍거리는 여자\"},{\"ori\":\"scold at each other\",\"trans\":\"서로 욕지거리하다\"},{\"ori\":\"scold a person for his carelessness\",\"trans\":\"조심성이 없다고 …을 꾸짖다\"},{\"ori\":\"common scold\",\"trans\":\"(초기의 코먼 로에서) 늘 난폭하고 으르렁대며싸움질하는 여인. 남을 귀찮게 하는 존재로서 처벌 대상이 되었다.\"}]",
+      "correct_count": 0,
+      "incorrect_count": 0,
+      "status": "Learning",
+      "last_reviewed": "",
+      "created_at": "2026-06-20T09:40:39.572Z"
+    },
+    {
+      "id": "w_1781948456904_f2zg7",
+      "word": "disparage",
+      "meaning": "폄하하다 (=belittle)",
+      "nuance": "",
+      "synonyms": "[\"belittle\",\"denigrate\",\"deprecate\",\"depreciate\",\"downgrade\",\"play down\",\"run down\",\"dismiss\"]",
+      "expressions": "[{\"ori\":\"disparage\",\"trans\":\"얕보다, 깔보다, 헐뜯다\"},{\"ori\":\"disparage\",\"trans\":\"폄하하다, 경시하다, 비난하다\"},{\"ori\":\"disparage\",\"trans\":\"얕보다, 험담하다\"}]",
+      "correct_count": 0,
+      "incorrect_count": 0,
+      "status": "Learning",
+      "last_reviewed": "",
+      "created_at": "2026-06-20T09:40:56.904Z"
+    },
+    {
+      "id": "w_1781948471831_9qrce",
+      "word": "discrimination",
+      "meaning": "차별 (→positive discrimination)",
+      "nuance": "",
+      "synonyms": "[\"prejudice\",\"bias\",\"apartheid\",\"afˌfirmative ˈaction\",\"intolerance\",\"favouritism\",\"bigotry\",\"narrow-mindedness\"]",
+      "expressions": "[{\"ori\":\"discriminate\",\"trans\":\"식별[구별]하다 (=differentiate, distinguish); 차별하다\"},{\"ori\":\"reverse discrimination\",\"trans\":\"(=positive discrimination)\"},{\"ori\":\"positive discrimination\",\"trans\":\"긍정적인 차별, (인종·남녀 차별 등으로 인한) 사회적 약자 우대 정책\"},{\"ori\":\"discrimination against the elderly\",\"trans\":\"노인에 대한 차별\"}]",
+      "correct_count": 0,
+      "incorrect_count": 0,
+      "status": "Learning",
+      "last_reviewed": "",
+      "created_at": "2026-06-20T09:41:11.831Z"
+    }
+  ],
+  "logs": []
+}
