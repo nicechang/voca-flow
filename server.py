@@ -57,6 +57,17 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 with urllib.request.urlopen(req) as response:
                     content = response.read()
                     print(f"[Proxy] Naver Response Status: {response.status}, Content Length: {len(content)}", flush=True)
+                    
+                    # Check if Naver blocked the request or returned CAPTCHA (HTML response instead of JSON)
+                    try:
+                        decoded = content.decode('utf-8', errors='ignore').strip()
+                        if decoded.startswith("<!DOCTYPE") or decoded.startswith("<html") or decoded.startswith("<!doctype"):
+                            print("[Proxy] Error: Naver returned HTML instead of JSON (CAPTCHA or Block page)!", file=sys.stderr, flush=True)
+                            self.send_error_response(503, "네이버 사전 서버가 요청을 차단했습니다 (로봇 검증 CAPTCHA 또는 IP 차단 화면 수신됨).")
+                            return
+                    except Exception as parse_err:
+                        print(f"[Proxy] Warning during response check: {str(parse_err)}", file=sys.stderr, flush=True)
+
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/json; charset=utf-8')
                     self.end_headers()

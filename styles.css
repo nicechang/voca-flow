@@ -1342,3 +1342,172 @@ textarea {
     font-size: 26px;
   }
 }
+
+/* Text Reading Study Layout */
+.reading-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 18px 22px;
+}
+
+.reading-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.reading-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.reading-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(167, 139, 250, 0.2);
+  background: rgba(30, 41, 59, 0.75);
+}
+
+.reading-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.reading-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.reading-card-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.reading-card-phonetic {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.reading-card-meaning {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.reading-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reading-card-section {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.reading-card-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.reading-card-section-title .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.reading-card-section-content {
+  font-size: 13px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+
+/* AI Memory Tip specific style */
+.reading-card-section.ai-tip {
+  border-left: 3px solid var(--primary-color);
+  background: rgba(167, 139, 250, 0.04);
+}
+
+.reading-card-section.ai-tip .reading-card-section-title {
+  color: var(--primary-hover);
+}
+
+/* Nuance specific style */
+.reading-card-section.nuance-sec {
+  border-left: 3px solid var(--warning-color);
+  background: rgba(251, 191, 36, 0.04);
+}
+
+.reading-card-section.nuance-sec .reading-card-section-title {
+  color: var(--warning-color);
+}
+
+/* AI Loading Spinner overlay */
+.ai-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 10;
+  border-radius: 20px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.ai-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(167, 139, 250, 0.2);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.ai-loading-text {
+  font-size: 12px;
+  color: var(--primary-hover);
+  font-weight: 500;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.rotating {
+  animation: spin 1s linear infinite;
+}

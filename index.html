@@ -259,6 +259,30 @@
       </div>
     </section>
 
+    <!-- TAB 2-2: 텍스트 학습 (Text Reading Study) -->
+    <section id="tab-reading" class="tab-content">
+      <div class="reading-header glass-card">
+        <div class="reading-info">
+          <h2 class="reading-title-text" style="font-size: 18px; font-weight: 600; color: #fff;">📖 텍스트 읽기 학습</h2>
+          <p class="subtitle" style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">잘 안 외워지는 단어와 최근 복습 단어 위주로 5개씩 제공합니다.</p>
+        </div>
+        <button id="btn-refresh-reading" class="btn btn-secondary btn-icon-only" title="단어 새로고침" style="border-radius: 50%;">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+
+      <div id="reading-cards-container" class="reading-cards-list">
+        <!-- 5 Reading cards will be rendered dynamically -->
+      </div>
+
+      <div class="reading-actions" style="margin-top: 16px; margin-bottom: 24px;">
+        <button id="btn-complete-reading" class="btn btn-primary btn-block">
+          <span class="material-symbols-outlined">task_alt</span>
+          <span>학습 완료 & 다음 5개 단어 읽기</span>
+        </button>
+      </div>
+    </section>
+
     <!-- TAB 3: 단어장 & 통계 (Wordlist & Stats) -->
     <section id="tab-list" class="tab-content">
       
@@ -333,6 +357,26 @@
       <div class="glass-card settings-card">
         <h2 class="section-title">연동 및 환경 설정</h2>
         
+        <!-- Gemini API Key Config -->
+        <div class="setting-group" style="margin-bottom: 20px;">
+          <label class="setting-label" style="display: block; font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 8px;">AI 학습 지원 설정 (선택)</label>
+          <div class="input-group">
+            <label for="input-gemini-key">Gemini API Key</label>
+            <div class="search-input-wrapper">
+              <input type="password" id="input-gemini-key" placeholder="AI 암기 도우미를 활성화하려면 API Key를 입력하세요.">
+              <button type="button" id="btn-save-gemini-key" class="btn btn-primary" style="padding: 14px 18px;">
+                <span class="material-symbols-outlined">save</span>
+              </button>
+            </div>
+            <p class="input-help-text" style="font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4;">
+              * <a href="https://aistudio.google.com/" target="_blank" style="color: var(--primary-color); text-decoration: none;">Google AI Studio</a>에서 무료 API Key를 발급받을 수 있습니다.<br>
+              * 입력된 키는 브라우저 로컬 저장소에만 안전하게 보관됩니다.
+            </p>
+          </div>
+        </div>
+
+        <hr class="divider" style="height: 1px; background: rgba(255, 255, 255, 0.08); border: none; margin: 20px 0;">
+
         <!-- App Mode Selector -->
         <div class="setting-group">
           <label class="setting-label">데이터 관리 방식</label>
@@ -421,6 +465,10 @@
     <button class="nav-item" data-tab="tab-study">
       <span class="material-symbols-outlined nav-icon">school</span>
       <span class="nav-label">카드 학습</span>
+    </button>
+    <button class="nav-item" data-tab="tab-reading">
+      <span class="material-symbols-outlined nav-icon">menu_book</span>
+      <span class="nav-label">텍스트 학습</span>
     </button>
     <button class="nav-item" data-tab="tab-list">
       <span class="material-symbols-outlined nav-icon">list_alt</span>

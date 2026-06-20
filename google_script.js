@@ -25,7 +25,7 @@ function initSheets() {
     var headers = [
       "id", "word", "meaning", "nuance", "synonyms", 
       "expressions", "correct_count", "incorrect_count", 
-      "status", "last_reviewed", "created_at"
+      "status", "last_reviewed", "created_at", "memory_tip"
     ];
     wordsSheet.appendRow(headers);
     wordsSheet.getRange(1, 1, 1, headers.length).setFontWeight("bold");
@@ -159,7 +159,7 @@ function doPost(e) {
       var headers = [
         "id", "word", "meaning", "nuance", "synonyms", 
         "expressions", "correct_count", "incorrect_count", 
-        "status", "last_reviewed", "created_at"
+        "status", "last_reviewed", "created_at", "memory_tip"
       ];
       
       if (foundIndex > -1) {
@@ -185,7 +185,7 @@ function doPost(e) {
       var headers = [
         "id", "word", "meaning", "nuance", "synonyms", 
         "expressions", "correct_count", "incorrect_count", 
-        "status", "last_reviewed", "created_at"
+        "status", "last_reviewed", "created_at", "memory_tip"
       ];
       
       var filtered = data.filter(function(w) { return w.id !== wordId; });
@@ -212,7 +212,7 @@ function doPost(e) {
       var wordHeaders = [
         "id", "word", "meaning", "nuance", "synonyms", 
         "expressions", "correct_count", "incorrect_count", 
-        "status", "last_reviewed", "created_at"
+        "status", "last_reviewed", "created_at", "memory_tip"
       ];
       
       for (var i = 0; i < wordsData.length; i++) {
@@ -260,7 +260,7 @@ function doPost(e) {
       var wordHeaders = [
         "id", "word", "meaning", "nuance", "synonyms", 
         "expressions", "correct_count", "incorrect_count", 
-        "status", "last_reviewed", "created_at"
+        "status", "last_reviewed", "created_at", "memory_tip"
       ];
       var logHeaders = ["id", "word_id", "word", "result", "quiz_type", "timestamp"];
       
